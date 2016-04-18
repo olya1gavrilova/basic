@@ -15,6 +15,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'SpoNtannyvalidationnykod',
+			'parsers' => [
+				'application/json' => 'yii\web\JsonParser',
+			]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -49,6 +52,7 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+				['class' => 'yii\rest\UrlRule', 'controller' => ['rest/user',] ],
                 'post/view/<id:\d+>/'=>'post/view',
                 'comments/create/<id:\d+>/'=>'comments/create',
                 'category/view/<id:\d+>/'=>'category/view',
