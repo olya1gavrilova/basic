@@ -25,7 +25,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         
         return [
             [['last_name', 'first_name', 'username', 'password', 'access_token'], 'required','on' => 'create'],
-            [['last_name', 'first_name', 'username', 'password'], 'required','on' => 'update'],
+            [['last_name', 'first_name', 'username', ], 'required','on' => 'update'],
             [['last_name', 'first_name'], 'string', 'max' => 45],
             [['username'], 'string', 'max' => 15],
             [['password', 'auth_key', 'access_token'], 'string', 'max' => 32],

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Roles */
 
-$this->title = 'Create Roles';
+$this->title = $id === 'role'? 'Создать роль' : 'Создать новую функцию';
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

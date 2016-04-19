@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 
+	<?=Html::a('Добавить функцию',['create','id'=>'rule'],['class'=>'btn btn-success']);?>
+
 	<h3>Родительские роли:</h3>
 	<?php foreach ($parents as $parent): ?>
 		<?php foreach ($roles as $role): ?>
