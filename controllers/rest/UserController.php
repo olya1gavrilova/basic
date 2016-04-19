@@ -4,32 +4,14 @@ namespace app\controllers\rest;
 
 use Yii;
 use app\models\User;
-use app\models\UserSearch;
-use app\models\Post;
-use app\models\Assignments;
 
-use yii\rest\ActiveController;
+use app\controllers\rest\BaseRestController;
 use yii\web\ForbiddenHttpException;
-use yii\filters\auth\HttpBasicAuth;
 
-class UserController extends ActiveController
+
+class UserController extends BaseRestController
 {
 	public $modelClass = 'app\models\User';
-	
-	public function init()
-	{
-		parent::init();
-		Yii::$app->user->enableSession = false;
-	}
-	
-	public function behaviors()
-	{
-		$behaviors = parent::behaviors();
-		$behaviors['authenticator'] = [
-			'class' => HttpBasicAuth::className(),
-		];
-		return $behaviors;
-	}
 	
 	/**
 	 * Проверяет права текущего пользователя.
