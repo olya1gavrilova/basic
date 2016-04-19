@@ -13,6 +13,7 @@ use app\models\Post;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\Assignments;
+use yii\base\Security;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -40,12 +41,13 @@ class UserController extends Controller
     {
         $user=new User;
 
-        if(Yii::$app->user->can('all-users'))
+        if(Yii::$app->user->can('user-update'))
         {
             $searchModel = new UserSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->pagination->pageSize=5;
 
-            return $this->render('index', [
+            return $this->render('all', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
@@ -124,8 +126,10 @@ class UserController extends Controller
         if(Yii::$app->user->can('user-update') || $user->isAuthor($id)){
             $model = $this->findModel($id);
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post())) {
+                $model->password=md5($model->password);
+                $model->save();
+                return $this->redirect(['update', 'id' => $model->id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -157,6 +161,8 @@ class UserController extends Controller
         }
     }
 
+
+
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -171,5 +177,14 @@ class UserController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    public function actionTokenchange($id)
+    {
+         $security = new Security(); 
+
+          $user=User::findIdentity($id);
+          $user->access_token=$user->tokenGenerator();
+          $user->save();
+          return $this->redirect(['update', 'id'=>$id]);
     }
 }

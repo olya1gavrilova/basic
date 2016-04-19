@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 
+use yii\base\Security;
+
 
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -22,7 +24,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         
         return [
-            [['last_name', 'first_name', 'username', 'password', 'access_token'], 'required'],
+            [['last_name', 'first_name', 'username', 'password', 'access_token'], 'required','on' => 'create'],
+            [['last_name', 'first_name', 'username', 'password'], 'required','on' => 'update'],
             [['last_name', 'first_name'], 'string', 'max' => 45],
             [['username'], 'string', 'max' => 15],
             [['password', 'auth_key', 'access_token'], 'string', 'max' => 32],
@@ -108,4 +111,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function isAuthor($id){
            return $id===Yii::$app->user->id ? true: false;
     }
+
+    public function tokenGenerator(){
+        $security = new Security();
+        return $security->generateRandomString(32);
+    }
+  
 }

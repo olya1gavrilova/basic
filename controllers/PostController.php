@@ -122,6 +122,7 @@ class PostController extends Controller
 
             $searchModel = new PostSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+             $dataProvider->pagination->pageSize=8;
 
             return $this->render('all', [
                 'searchModel' => $searchModel,

@@ -35,7 +35,7 @@ class Comments extends \yii\db\ActiveRecord
     {
         return [
             [['auth_nick', 'title', 'text', 'auth_email'], 'required', 'on' => 'create'],
-            [['title', 'text'], 'required', 'on' => 'create'],
+            [['title', 'text'], 'required', 'on' => 'update'],
             [['auth_id', 'post_id'], 'integer'],
             [['text', 'status'], 'string'],
             [['date'], 'safe'],

@@ -99,7 +99,7 @@ class SiteController extends Controller
         }
 
         $model = new User();
-        $security = new Security();
+        
         $assignments= new Assignments();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -110,12 +110,12 @@ class SiteController extends Controller
             ]); 
             }
             else{
-            $model->access_token=$security->generateRandomString(32);
+            $model->access_token=$model->tokenGenerator();
             $model->password=md5($model->password);
             $model->validate();
             $model->save();
 
-            $id=User::find()->where(['access_token'=>$model->access_token])->one()->id;
+            $id=User::findIdentityByAccessToken($model->access_token)->id;
             $assignments->user_id=$id;
             $assignments->item_name='user';
             $assignments->save();

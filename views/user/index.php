@@ -15,21 +15,25 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
 
     <?php if (Yii::$app->user->can('enter-admin')):?>
-        <?=Html::a('Управление ролями', '../roles/index', ['class' => 'btn btn-info btn-lg'])?>
+        <?=Html::a('Управление ролями', '../roles/index', ['class' => 'btn btn-info'])?>
      <?php endif?>
 
 
      <?php if (Yii::$app->user->can('delete-post') || Yii::$app->user->can('update-post')):?>
-        <?=Html::a('Управление постами', '../post/all', ['class' => 'btn btn-info btn-lg'])?>
+        <?=Html::a('Управление постами', '../post/all', ['class' => 'btn btn-info'])?>
     <?php endif?>
 
 
     <?php if (Yii::$app->user->can('comment-list')):?>
-        <?=Html::a('Управление комментариями', '../comments/index', ['class' => 'btn btn-info btn-lg'])?>
+        <?=Html::a('Управление комментариями', '../comments/index', ['class' => 'btn btn-info '])?>
      <?php endif?>
 
       <?php if (Yii::$app->user->can('category-create')):?>
-        <?=Html::a('Создать категорию', '../category/create', ['class' => 'btn btn-info btn-lg'])?>
+        <?=Html::a('Создать категорию', '../category/create', ['class' => 'btn btn-info'])?>
+     <?php endif?>
+
+     <?php if (Yii::$app->user->can('user-update')):?>
+        <?=Html::a('Все пользователи', 'all', ['class' => 'btn btn-info'])?>
      <?php endif?>
 
     
