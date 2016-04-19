@@ -46,17 +46,17 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => false,
+            'enableStrictParsing' => true,
             'rules' => [
 				['class' => 'yii\rest\UrlRule', 'controller' => ['rest/user',] ],
-                'post/view/<id:\d+>/'=>'post/view',
-                'comments/create/<id:\d+>/'=>'comments/create',
-                'category/view/<id:\d+>/'=>'category/view',
-
+				'' => 'site/index',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+				'<controller:\w+>/<id:\d+>' => '<controller>/view',
+				'<controller:\w+>s' => '<controller>/index',				
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
         
