@@ -15,11 +15,15 @@ use yii\filters\VerbFilter;
 use app\models\Assignments;
 use yii\base\Security;
 
+use yii\web\Session;
+
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends Controller
 {
+
+
  /*   public function behaviors()
     {
 
@@ -122,17 +126,18 @@ class UserController extends Controller
     {
         $user = new User;
 
-
         if(Yii::$app->user->can('user-update') || $user->isAuthor($id)){
             $model = $this->findModel($id);
 
-            if ($model->load(Yii::$app->request->post())) {
-                $model->password=md5($model->password);
+            if ($model->load(Yii::$app->request->post()) && $model->validate())
+            {
                 $model->save();
                 return $this->redirect(['update', 'id' => $model->id]);
-            } else {
+            }
+            else {
                 return $this->render('update', [
                     'model' => $model,
+                    'id'=>$id,
                 ]);
             }
         }
@@ -140,6 +145,7 @@ class UserController extends Controller
             throw new ForbiddenHttpException;            
         }
     }
+   
 
     /**
      * Deletes an existing User model.
@@ -161,8 +167,6 @@ class UserController extends Controller
         }
     }
 
-
-
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -180,11 +184,27 @@ class UserController extends Controller
     }
     public function actionTokenchange($id)
     {
-         $security = new Security(); 
-
           $user=User::findIdentity($id);
           $user->access_token=$user->tokenGenerator();
           $user->save();
           return $this->redirect(['update', 'id'=>$id]);
+    }
+
+     public function actionChange_password()
+    { 
+          $user=Yii::$app->user->identity;
+          $loadedinfo=$user->load(Yii::$app->request->post());
+
+          if($loadedinfo && $user->validate())
+          {
+            $user->password=md5($user->newPassword);
+            $user->save(false);
+            
+            return $this->redirect(['update', 'id'=>$user->id]);
+          }
+
+          else{
+            return $this->render('change_password',['user'=>$user]);
+          }
     }
 }

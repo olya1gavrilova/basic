@@ -9,6 +9,11 @@ use yii\base\Security;
 
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+
+    public $currentPassword;
+    public $newPassword;
+    public $newPasswordConfirm;
+
     /**
      * @inheritdoc
      */
@@ -16,7 +21,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return 'user';
     }
-
+   
+    public $new_password;
+   
     /**
      * @inheritdoc
      */
@@ -29,8 +36,23 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['last_name', 'first_name'], 'string', 'max' => 45],
             [['username'], 'string', 'max' => 15],
             [['password', 'auth_key', 'access_token'], 'string', 'max' => 32],
-           
+
+            [['currentPassword', 'newPassword', 'newPasswordConfirm', ], 'required','on' => 'change_password'],
+            [['currentPassword'], 'validateCurrentPassword'],
+            [['newPassword', 'newPasswordConfirm'], 'string', 'min'=>3],
+            [['newPassword', 'newPasswordConfirm'], 'filter', 'filter'=>'trim'],
+            [['newPasswordConfirm'], 'compare','compareAttribute'=>'newPassword', 'message'=>'Пароли не совпадают'],
         ];
+    }
+
+    public function validateCurrentPassword()
+    {
+        if($this->currentPassword===$this->findIdentity(['username'=>Yii::$app->user->identity->username])->password){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**

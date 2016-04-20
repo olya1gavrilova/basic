@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 
+use app\models\User;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
@@ -18,8 +20,17 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+     <?php if(User::isAuthor($id)):?>
+
+             <?= Html::a('Изменить пароль','change_password', ['class' => 'btn btn-info']) ?>
+
+    <?php endif?>
+    <br /><br />
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+    <br />
+    
 
 </div>
