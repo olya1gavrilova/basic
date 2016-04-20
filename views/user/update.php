@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 
      <?php if(User::isAuthor($id)):?>
 
-             <?= Html::a('Изменить пароль','change_password', ['class' => 'btn btn-info']) ?>
+             <?= Html::a('Изменить пароль','../change_password', ['class' => 'btn btn-info']) ?>
 
     <?php endif?>
     <br /><br />
