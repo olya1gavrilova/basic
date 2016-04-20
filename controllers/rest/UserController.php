@@ -1,35 +1,12 @@
 <?php
-
 namespace app\controllers\rest;
-
 use Yii;
 use app\models\User;
-use app\models\UserSearch;
-use app\models\Post;
-use app\models\Assignments;
-
-use yii\rest\ActiveController;
+use app\controllers\rest\BaseRestController;
 use yii\web\ForbiddenHttpException;
-use yii\filters\auth\HttpBasicAuth;
-
-class UserController extends ActiveController
+class UserController extends BaseRestController
 {
 	public $modelClass = 'app\models\User';
-	
-	public function init()
-	{
-		parent::init();
-		Yii::$app->user->enableSession = false;
-	}
-	
-	public function behaviors()
-	{
-		$behaviors = parent::behaviors();
-		$behaviors['authenticator'] = [
-			'class' => HttpBasicAuth::className(),
-		];
-		return $behaviors;
-	}
 	
 	/**
 	 * Проверяет права текущего пользователя.
@@ -39,12 +16,12 @@ class UserController extends ActiveController
 	 * Если у пользователя нет доступа, следует выбросить исключение [[ForbiddenHttpException]].
 	 *
 	 * @param string $action ID действия, которое надо выполнить
-		[[yii\rest\IndexAction|index]]: постраничный список ресурсов;
-		[[yii\rest\ViewAction|view]]: возвращает подробную информацию об указанном ресурсе;
-		[[yii\rest\CreateAction|create]]: создание нового ресурса;
-		[[yii\rest\UpdateAction|update]]: обновление существующего ресурса;
-		[[yii\rest\DeleteAction|delete]]: удаление указанного ресурса;
-		[[yii\rest\OptionsAction|options]]: возвращает поддерживаемые HTTP-методы.
+	*	[[yii\rest\IndexAction|index]]: постраничный список ресурсов;
+	*	[[yii\rest\ViewAction|view]]: возвращает подробную информацию об указанном ресурсе;
+	*	[[yii\rest\CreateAction|create]]: создание нового ресурса;
+	*	[[yii\rest\UpdateAction|update]]: обновление существующего ресурса;
+	*	[[yii\rest\DeleteAction|delete]]: удаление указанного ресурса;
+	*	[[yii\rest\OptionsAction|options]]: возвращает поддерживаемые HTTP-методы.
 	 * @param \yii\base\Model $model модель, к которой нужно получить доступ. Если null, это означает, что модель, к которой нужно получить доступ, отсутствует.
 	 * @param array $params дополнительные параметры
 	 * @throws ForbiddenHttpException если у пользователя нет доступа
